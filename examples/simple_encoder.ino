@@ -1,4 +1,4 @@
-// #include "RotaryEncoder.hpp"
+#include "RotaryEncoder.hpp"
 
 #define SW PB0  //digital pin 8
 #define DT PB3  //digital pin 11
