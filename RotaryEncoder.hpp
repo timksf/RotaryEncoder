@@ -35,7 +35,7 @@ public:
 
     bool new_pos(){ return m_new_pos; };
 
-    int32_t pos(){ m_new_pos = false; return m_pos; }
+    int32_t pos(bool consume = false){ if(consume) m_new_pos = false; return m_pos; }
 
 private:
 
