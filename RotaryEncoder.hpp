@@ -4,10 +4,19 @@
 class RotaryEncoder{
 private:     
 
-    static const uint8_t s_FINALSTATE_CW;
-    static const uint8_t s_FINALSTATE_CCW;
+    inline static const uint8_t s_FINALSTATE_CW = 6;
+    inline static const uint8_t s_FINALSTATE_CCW = 7;
 
-    static const int8_t s_transition_table[32];
+    inline static const int8_t s_transition_table[] = {
+        0, 0, 0, 1,
+        -1, 1, 2, 0,
+        2, 0, -2, -2,
+        2, -3, 0, -3,
+        0, -4, 2, -4,
+        0, 2, -5, -5,
+        -6, -6, -6, -6,
+        -7, -7, -7, -7
+    };
 
 public:
 
@@ -17,7 +26,7 @@ public:
         m_pos = pos;
     }
 
-    void update(uint8_t state_a, uint8_t state_b){
+    void update(bool state_a, bool state_b){
         uint8_t input = state_a | (state_b << 1);
 
         m_state += s_transition_table[(input | (m_state << 2))];
@@ -37,25 +46,13 @@ public:
 
     int32_t pos(bool consume = false){ if(consume) m_new_pos = false; return m_pos; }
 
+    uint8_t m_state{ 0 };
+
 private:
 
-    uint8_t m_state{ 0 };
     int32_t m_pos{ 0 };
     bool m_new_pos{ false };
 
-};
-
-const uint8_t RotaryEncoder::s_FINALSTATE_CW = 6;
-const uint8_t RotaryEncoder::s_FINALSTATE_CCW = 7;
-const int8_t RotaryEncoder::s_transition_table[] = {
-        0, 0, 0, 1,
-        -1, 1, 2, 0,
-        2, 0, -2, -2,
-        2, -3, 0, -3,
-        0, -4, 2, -4,
-        0, 2, -5, -5,
-        -6, -6, -6, -6,
-        -7, -7, -7, -7
 };
 
 #endif
